@@ -108,9 +108,10 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-export PATH="/home/andrew/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/core_perl"
+# export PATH="/home/andrew/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/core_perl"
 # export MANPATH="/usr/local/man:$MANPATH"
 
+export EDITOR='emacs'
 # # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
 #   export EDITOR='vim'
