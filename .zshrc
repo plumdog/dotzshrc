@@ -125,3 +125,4 @@ export EDITOR='emacs'
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
 
+alias emacs="emacs -nw"
