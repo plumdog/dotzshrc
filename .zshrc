@@ -15,15 +15,13 @@ autoload -U colors && colors
 
 # functions and aliases
 alias ls='ls --color'
+alias ll='ls -alF'
+alias l='ls -CF'
 alias nt='gnome-terminal "$PWD"'
 alias x='exit'
 alias emacs="emacs -nw"
+alias e="emacs"
 alias v="vcsh"
-
-function ssh-tunnel() {
-	host="$1"
-	ssh -C2TnN -D 8080 "$1"
-}
 
 function get-music() {
 	rsync -avru pi@rpi:/home/pi/Music/ ~/Music/mp3s/
@@ -32,6 +30,8 @@ function get-music() {
 function put-music() {
 	rsync -avru ~/Music/mp3s/ pi@rpi:/home/pi/Music/
 }
+alias 'ssh-tunnel'="ssh -C2TnN -D 8080"
+alias g="git"
 
 PROMPT_NAME="%{$fg[blue]%}%n%{$reset_color%}"
 PROMPT_HOST="%{$fg[black]%}%m%{$reset_color%}"
