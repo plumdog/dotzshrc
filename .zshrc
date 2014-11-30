@@ -10,6 +10,9 @@ export EDITOR='emacs'
 autoload -Uz compinit
 compinit
 
+# load colors
+autoload -U colors && colors
+
 # functions and aliases
 alias ls='ls --color'
 alias nt='gnome-terminal "$PWD"'
@@ -30,5 +33,10 @@ function put-music() {
 	rsync -avru ~/Music/mp3s/ pi@rpi:/home/pi/Music/
 }
 
-PROMPT="%n@%m %~
+PROMPT_NAME="%{$fg[blue]%}%n%{$reset_color%}"
+PROMPT_HOST="%{$fg[black]%}%m%{$reset_color%}"
+PROMPT_PATH="%{$fg[cyan]%}%~%{$reset_color%}"
+PROMPT=$PROMPT_NAME"@"$PROMPT_HOST" "$PROMPT_PATH" %#
 ❯ "
+
+RPROMPT="%(0?..[%?])"%(
