@@ -22,14 +22,6 @@ alias x='exit'
 alias emacs="emacs -nw"
 alias e="emacs"
 alias v="vcsh"
-
-function get-music() {
-	rsync -avru pi@rpi:/home/pi/Music/ ~/Music/mp3s/
-}
-
-function put-music() {
-	rsync -avru ~/Music/mp3s/ pi@rpi:/home/pi/Music/
-}
 alias 'ssh-tunnel'="ssh -C2TnN -D 8080"
 alias g="git"
 
