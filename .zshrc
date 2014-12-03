@@ -26,7 +26,7 @@ alias 'ssh-tunnel'="ssh -C2TnN -D 8080"
 alias g="git"
 
 PROMPT_NAME="%{$fg[blue]%}%n%{$reset_color%}"
-PROMPT_HOST="%{$fg[black]%}%m%{$reset_color%}"
+PROMPT_HOST="%{$fg[green]%}%m%{$reset_color%}"
 PROMPT_PATH="%{$fg[cyan]%}%~%{$reset_color%}"
 PROMPT=$PROMPT_NAME"@"$PROMPT_HOST" "$PROMPT_PATH" %#
 ❯ "
