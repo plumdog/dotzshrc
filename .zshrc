@@ -25,6 +25,38 @@ alias v="vcsh"
 alias 'ssh-tunnel'="ssh -C2TnN -D 8080"
 alias g="git"
 
+function upsearch () {
+	slashes=${PWD//[^\/]/}
+	directory="$PWD"
+	for (( n=${#slashes}; n>0; --n ))
+	do
+		test -e "$directory/$1" && echo "$directory/$1" && return
+		directory="$directory/.."
+	done
+
+	cd "$directory"
+	echo "$PWD"
+	cd - >> /dev/null
+}
+
+function create_virtualenv {
+	dir=$(upsearch 'venv')
+
+	if [[ "$dir" == "/" ]]
+	then
+		echo "Create virtualenv"
+		virtualenv venv --setuptools
+		source ./venv/bin/activate
+	else
+		echo "Activate existing virtualenv"
+		source "$dir"/bin/activate
+	fi
+}
+
+alias vv='create_virtualenv'
+alias vvd='deactivate'
+
+
 PROMPT_NAME="%{$fg[blue]%}%n%{$reset_color%}"
 PROMPT_HOST="%{$fg[green]%}%m%{$reset_color%}"
 PROMPT_PATH="%{$fg[cyan]%}%~%{$reset_color%}"
