@@ -55,9 +55,13 @@ function create_virtualenv {
 	fi
 }
 
+function emacs_ag {
+    emacs $(ag -l $@)
+}
+
 alias vv='create_virtualenv'
 alias vvd='deactivate'
-
+alias emags=emacs_ag
 
 PROMPT_NAME="%{$fg[blue]%}%n%{$reset_color%}"
 PROMPT_HOST="%{$fg[green]%}%m%{$reset_color%}"
