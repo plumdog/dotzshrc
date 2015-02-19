@@ -70,3 +70,7 @@ PROMPT=$PROMPT_NAME"@"$PROMPT_HOST" "$PROMPT_PATH" %#
 ❯ "
 
 RPROMPT="%(0?..[%?])"%(
+
+if [ -d "/usr/local/heroku/bin" ]
+    export PATH="/usr/local/heroku/bin:$PATH"
+fi
