@@ -25,6 +25,7 @@ alias e="emacsclient -nw"
 alias v="vcsh"
 alias 'ssh-tunnel'="ssh -C2TnN -D 8080"
 alias g="git"
+alias s=svn
 
 function upsearch () {
 	slashes=${PWD//[^\/]/}
