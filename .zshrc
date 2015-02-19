@@ -42,13 +42,13 @@ function upsearch () {
 }
 
 function create_virtualenv {
-	dir=$(upsearch 'venv')
+	dir=$(upsearch '.venv')
 
 	if [[ "$dir" == "/" ]]
 	then
 		echo "Create virtualenv"
-		virtualenv venv --setuptools
-		source ./venv/bin/activate
+		virtualenv .venv --setuptools
+		source ./.venv/bin/activate
 	else
 		echo "Activate existing virtualenv"
 		source "$dir"/bin/activate
