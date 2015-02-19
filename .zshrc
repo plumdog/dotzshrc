@@ -14,6 +14,7 @@ compinit
 autoload -U colors && colors
 
 # functions and aliases
+alias less='less -XF'
 alias ls='ls --color'
 alias ll='ls -alF'
 alias l='ls -CF'
