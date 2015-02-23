@@ -5,6 +5,7 @@ HISTFILE=~/.zsh_history
 
 # emacs all the things, all the time
 export EDITOR='emacs'
+export ALTERNATE_EDITOR=""
 
 # Use modern completion system
 autoload -Uz compinit
@@ -20,8 +21,8 @@ alias ll='ls -alF'
 alias l='ls -CF'
 alias nt='gnome-terminal "$PWD"'
 alias x='exit'
-alias emacs="emacsclient -nw -c"
-alias e="emacsclient -nw -c"
+alias emacs="emacsclient -nw -c -t"
+alias e="emacsclient -nw -c -t"
 alias v="vcsh"
 alias 'ssh-tunnel'="ssh -C2TnN -D 8080"
 alias g="git"
