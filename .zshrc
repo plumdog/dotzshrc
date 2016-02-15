@@ -135,3 +135,6 @@ USERBIN="/home/$USER/bin"
 if [[ -d $USERBIN ]]; then
     export PATH="$USERBIN:$PATH"
 fi
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
