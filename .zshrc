@@ -109,6 +109,60 @@ function emacs_ag {
     emacs $(ag -l $@)
 }
 
+NOTEPATH_BASE=~/Dropbox/notes
+
+function notes_tabbed {
+    printf "%s\t%s\n" "Note" "LastMod"
+    printf "%s\t%s\n" "----" "-------"
+    notes=$(find "$NOTEPATH_BASE" -name '*.txt' | sort)
+    while read -r note; do
+        name=$(basename "$note" | sed -e 's/.txt$//')
+        # chop out the decimal places in the timestamp
+        lastmod=$(stat -c %y "$note" | sed -e 's/\..* / /')
+        printf "%s\t%s\n" "$name" "$lastmod"
+    done <<< "$notes"
+}
+
+function notes {
+    notes_tabbed | column -t -s "$(printf '\t')"
+}
+
+function get_note_path {
+    if [[ -z "$1" ]]; then
+        PS3="Note: "
+        select NOTE in $(find "$NOTEPATH_BASE" -name '*.txt' -exec basename {} \; | sort | sed -e 's/.txt//'); do
+            echo "Selected: $REPLY) $NOTE"
+            note="$NOTE"
+            break
+        done
+    else
+        note="$1"
+    fi
+
+    if [[ -n "$note" ]]; then
+        NOTEPATH="$NOTEPATH_BASE"/"$note".txt
+    fi
+}
+
+function notecat {
+    NOTEPATH=""
+    get_note_path "$1"
+    if [[ -z "$1" ]]; then
+        echo "############"
+    fi
+    if [[ -n NOTE ]]; then
+        cat "$NOTEPATH"
+    fi
+}
+
+function note {
+    NOTEPATH=""
+    get_note_path "$1"
+    if [[ -n $NOTEPATH ]]; then
+        emacs "$NOTEPATH"
+    fi
+}
+
 alias vv='create_virtualenv'
 alias vvd='deactivate'
 alias emags=emacs_ag
