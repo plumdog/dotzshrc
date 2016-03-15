@@ -32,6 +32,9 @@ alias g="git"
 alias s=svn
 alias gs="git status"
 
+export CC=gcc
+export CXX="g++"
+
 function findr() {
     NAME="$1"
     find . -name "$NAME"
