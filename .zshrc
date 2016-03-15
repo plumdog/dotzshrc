@@ -163,6 +163,10 @@ function note {
     fi
 }
 
+function battery {
+    upower -i $(upower -e | grep 'BAT') | grep 'percentage' | sed -e 's/^.*:\s*//'
+}
+
 alias vv='create_virtualenv'
 alias vvd='deactivate'
 alias emags=emacs_ag
