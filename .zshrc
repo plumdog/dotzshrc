@@ -4,9 +4,10 @@ SAVEHIST=100000
 HISTFILE=~/.zsh_history
 
 # emacs all the things, all the time
-export EDITOR='emacs'
 export ALTERNATE_EDITOR=""
 EDITOR_CMD="emacsclient -nw -c -t"
+export EDITOR="$EDITOR_CMD"
+export VISUAL="$EDITOR_CMD"
 
 # Use modern completion system
 autoload -Uz compinit
