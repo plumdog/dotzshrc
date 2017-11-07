@@ -168,6 +168,35 @@ function note {
     fi
 }
 
+function notepdf {
+    notename="$1"
+    title="$2"
+    if [[ -z $title ]]; then
+        title="$notename"
+    fi
+    tempdir="$(mktemp -d)"
+    sourcefile="notes_content"
+    notecat "$notename" > "$tempdir/notes.md"
+    basetex="$tempdir/notes.tex"
+
+    cat "$NOTEPATH_BASE/_base.tex" > "$basetex"
+    sed -i -e 's/TITLE/'"$title"'/' "$basetex"
+    sed -i -e 's/DATE/'"$(date +'%B %d, %Y')"'/' "$basetex"
+    sed -i -e 's/SOURCEFILE/'"$sourcefile"'/' "$basetex"
+    cp "$NOTEPATH_BASE/_makefile" "$tempdir/Makefile"
+    (cd "$tempdir" && make)
+
+    pdfpath="$tempdir/notes.pdf"
+
+    if [[ -f "$pdfpath" ]]; then
+        evince "$pdfpath"
+    else
+        echo "Error generating pdf"
+    fi
+
+    rm -rf "$tempdir"
+}
+
 function battery {
     upower -i $(upower -e | grep 'BAT') | grep 'percentage' | sed -e 's/^.*:\s*//'
 }
