@@ -32,6 +32,7 @@ alias 'ssh-tunnel'="ssh -C2TnN -D 8080"
 alias g="git"
 alias s=svn
 alias gs="git status"
+alias naut="nautilus --no-desktop"
 
 export CC=gcc
 export CXX="g++"
