@@ -119,7 +119,7 @@ NOTEPATH_BASE=~/Dropbox/notes
 function notes_tabbed {
     printf "%s\t%s\n" "Note" "LastMod"
     printf "%s\t%s\n" "----" "-------"
-    notes=$(find "$NOTEPATH_BASE" -name '*.txt' | sort)
+    notes=$(cd "$NOTEPATH_BASE" && find . -name '*.txt' ! -path './_**' | sort)
     while read -r note; do
         name=$(basename "$note" | sed -e 's/.txt$//')
         # chop out the decimal places in the timestamp
@@ -135,7 +135,7 @@ function notes {
 function get_note_path {
     if [[ -z "$1" ]]; then
         PS3="Note: "
-        select NOTE in $(find "$NOTEPATH_BASE" -name '*.txt' -exec basename {} \; | sort | sed -e 's/.txt//'); do
+        select NOTE in $(cd "$NOTEPATH_BASE" && find . -name '*.txt' ! -path './_**' -exec basename {} \; | sort | sed -e 's/.txt//'); do
             echo "Selected: $REPLY) $NOTE"
             note="$NOTE"
             break
