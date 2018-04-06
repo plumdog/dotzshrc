@@ -197,6 +197,29 @@ function notepdf {
     rm -rf "$tempdir"
 }
 
+function noteslides {
+    SLIDES_THEME="${2:-simple}"
+
+    NOTEPATH=""
+    get_note_path "$1"
+    notename="$(basename "$NOTEPATH" | sed 's/\.txt$//')"
+    ( cd "$NOTEPATH_BASE" &&
+          docker run --rm -i \
+                 --user "$(id -u)":"$(id -g)" \
+                 -v "$(pwd)":/pandoc \
+                 geometalab/pandoc pandoc \
+                 -t revealjs \
+                 -s \
+                 -o "$notename".html \
+                 "$notename".txt \
+                 -V revealjs-url=http://lab.hakim.se/reveal-js \
+                 -V width=1920 \
+                 -V height=1080 \
+                 -V theme="$SLIDES_THEME" &&
+          google-chrome "$notename".html
+    )
+}
+
 function battery {
     upower -i $(upower -e | grep 'BAT') | grep 'percentage' | sed -e 's/^.*:\s*//'
 }
