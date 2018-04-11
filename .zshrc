@@ -238,18 +238,20 @@ PROMPT_PATH="%{$fg[cyan]%}%~%{$reset_color%}"
 PROMPT=$PROMPT_NAME"@"$PROMPT_HOST$PROMPT_BRANCH" "$PROMPT_PATH" %#
 ❯ "
 
-
-
 RPROMPT="%(0?..[%?])"
 
-if [ -d "/usr/local/heroku/bin" ]; then
-    export PATH="/usr/local/heroku/bin:$PATH"
-fi
+EXTRA_PATHS=(
+    /usr/local/heroku/bin
+    /snap/bin
+    /home/$USER/bin
+)
 
-USERBIN="/home/$USER/bin"
-if [[ -d $USERBIN ]]; then
-    export PATH="$USERBIN:$PATH"
-fi
+for p in "${EXTRA_PATHS[@]}"; do
+    PATH="$p:$PATH"
+done
 
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
+export PATH="$PATH"
+
+if [[ which kubectl ]]; then
+    source <(kubectl completion zsh)
+fi
