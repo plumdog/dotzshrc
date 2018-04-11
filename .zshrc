@@ -252,6 +252,6 @@ done
 
 export PATH="$PATH"
 
-if [[ which kubectl ]]; then
+if which kubectl &> /dev/null; then
     source <(kubectl completion zsh)
 fi
