@@ -212,7 +212,7 @@ function noteslides {
                  -s \
                  -o "$notename".html \
                  "$notename".txt \
-                 -V revealjs-url=http://lab.hakim.se/reveal-js \
+                 -V revealjs-url=https://revealjs.com \
                  -V width=1920 \
                  -V height=1080 \
                  -V theme="$SLIDES_THEME" &&
