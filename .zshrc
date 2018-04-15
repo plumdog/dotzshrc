@@ -168,11 +168,19 @@ function note {
     fi
 }
 
+function title_case {
+    sed 's/.*/\L&/; s/[a-z]*/\u&/g'
+}
+
+function from_underscores {
+    sed 's/[^a-zA-Z0-9]/ /g'
+}
+
 function notepdf {
     notename="$1"
     title="$2"
     if [[ -z $title ]]; then
-        title="$notename"
+        title="$(echo "$notename" | from_underscores | title_case)"
     fi
     tempdir="$(mktemp -d)"
     sourcefile="notes_content"
