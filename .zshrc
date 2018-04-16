@@ -116,26 +116,29 @@ function emacs_ag {
 
 NOTEPATH_BASE=~/Dropbox/notes
 
-function notes_tabbed {
+function _get_notes {
+    (cd "$NOTEPATH_BASE" && find . -name '*.txt' ! -path './_**' | xargs -L 1 basename | sort)
+}
+
+function _notes_tabbed {
     printf "%s\t%s\n" "Note" "LastMod"
     printf "%s\t%s\n" "----" "-------"
-    notes=$(cd "$NOTEPATH_BASE" && find . -name '*.txt' ! -path './_**' | sort)
     while read -r note; do
-        name=$(basename "$note" | sed -e 's/.txt$//')
+        name=$(echo "$note" | sed -e 's/\.txt$//')
         # chop out the decimal places in the timestamp
-        lastmod=$(stat -c %y "$note" | sed -e 's/\..* / /')
+        lastmod=$(stat -c %y "$NOTEPATH_BASE/$note" | sed -e 's/\..* / /')
         printf "%s\t%s\n" "$name" "$lastmod"
-    done <<< "$notes"
+    done <<< "$(_get_notes)"
 }
 
 function notes {
-    notes_tabbed | column -t -s "$(printf '\t')"
+    _notes_tabbed | column -t -s "$(printf '\t')"
 }
 
 function get_note_path {
     if [[ -z "$1" ]]; then
         PS3="Note: "
-        select NOTE in $(cd "$NOTEPATH_BASE" && find . -name '*.txt' ! -path './_**' -exec basename {} \; | sort | sed -e 's/.txt//'); do
+        select NOTE in $(_get_notes | sed -e 's/.txt//'); do
             echo "Selected: $REPLY) $NOTE"
             note="$NOTE"
             break
@@ -166,6 +169,14 @@ function note {
     if [[ -n $NOTEPATH ]]; then
         emacs "$NOTEPATH"
     fi
+}
+
+compdef note_autocomplete note notecat noteslides notepdf
+
+function note_autocomplete {
+    local -a notes_array
+    notes_array=($(_get_notes | sed 's/\.txt//'))
+    _describe 'command' notes_array
 }
 
 function title_case {
