@@ -274,3 +274,7 @@ export PATH="$PATH"
 if which kubectl &> /dev/null; then
     source <(kubectl completion zsh)
 fi
+
+if which kops &> /dev/null; then
+    source <(kops completion zsh)
+fi
