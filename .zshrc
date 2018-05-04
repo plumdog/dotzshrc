@@ -171,7 +171,7 @@ function note {
     fi
 }
 
-compdef note_autocomplete note notecat noteslides notepdf
+compdef note_autocomplete note notecat noteslides notepdf notetextile
 
 function note_autocomplete {
     local -a notes_array
@@ -214,6 +214,19 @@ function notepdf {
     fi
 
     rm -rf "$tempdir"
+}
+
+function notetextile {
+    NOTEPATH=""
+    get_note_path "$1"
+    fname="$(basename "$NOTEPATH")"
+    ( cd "$NOTEPATH_BASE" &&
+          docker run --rm -i \
+                 --user "$(id -u)":"$(id -g)" \
+                 -v "$(pwd)":/pandoc \
+                 geometalab/pandoc pandoc \
+                 -t textile \
+                 "$fname" )
 }
 
 function noteslides {
