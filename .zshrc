@@ -117,7 +117,7 @@ function emacs_ag {
 NOTEPATH_BASE=~/Dropbox/notes
 
 function _get_notes {
-    (cd "$NOTEPATH_BASE" && find . -name '*.txt' ! -path './_**' | xargs -L 1 basename | sort)
+    (cd "$NOTEPATH_BASE" && find . -name '*.txt' ! -path './_**' | sed -e 's/"/"\\""/g' -e 's/.*/"&"/' | xargs -L 1 basename | sort)
 }
 
 function _notes_tabbed {
