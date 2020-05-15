@@ -261,6 +261,23 @@ function to_qwerty {
     setxkbmap -layout gb
 }
 
+function act {
+    if [[ ! -f ./bin/activate ]]; then
+        echo "No ./bin/activate, not running"
+        return 1
+    fi
+
+    if head -n 1 ./bin/activate | grep 'python' >> /dev/null; then
+        create_virtualenv && eval "$(ssh-agent -s)" && {
+                env_vars="$(./bin/activate $@)"
+                source <(echo "$env_vars")
+            }
+    else
+        env_vars="$(./bin/activate $@)"
+        eval "$(ssh-agent -s)" && source <(echo "$env_vars")
+    fi
+}
+
 alias vv='create_virtualenv'
 alias vvd='deactivate'
 alias emags=emacs_ag
