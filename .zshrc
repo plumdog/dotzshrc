@@ -292,7 +292,7 @@ PROMPT_PATH="%{$fg[cyan]%}%~%{$reset_color%}"
 PROMPT=$PROMPT_NAME"@"$PROMPT_HOST$PROMPT_BRANCH" "$PROMPT_PATH" %#
 ❯ "
 
-RPROMPT="%(0?..[%?])"
+RPROMPT="%(0?..%{$fg[red]%}[%?]%{$reset_color%})"
 
 EXTRA_PATHS=(
     /usr/local/heroku/bin
