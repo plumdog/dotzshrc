@@ -244,11 +244,12 @@ function noteslides {
                  -s \
                  -o "$notename".html \
                  "$notename".txt \
+                 --slide-level 2 \
                  -V revealjs-url=https://revealjs.com \
                  -V width=1920 \
                  -V height=1080 \
                  -V theme="$SLIDES_THEME" &&
-          google-chrome "$notename".html
+          firefox "$notename".html
     )
 }
 
