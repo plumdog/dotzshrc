@@ -91,7 +91,7 @@ function upsearch () {
 function create_virtualenv {
     _python="$1"
     if [[ -z $_python ]]; then
-        _python="python2.7"
+        _python="python3"
     fi
 
 	dir=$(upsearch '.venv' 'dir')
@@ -102,7 +102,7 @@ function create_virtualenv {
 	if [[ "$dir" == "/" ]]
 	then
 		echo "Create virtualenv"
-		virtualenv venv --setuptools --python="$_python"
+		virtualenv venv --python="$_python"
 		source ./venv/bin/activate
 	else
 		echo "Activate existing virtualenv"
