@@ -257,6 +257,10 @@ function battery {
     upower -i $(upower -e | grep 'BAT') | grep 'percentage' | sed -e 's/^.*:\s*//'
 }
 
+function to_qwerty {
+    setxkbmap -layout gb
+}
+
 alias vv='create_virtualenv'
 alias vvd='deactivate'
 alias emags=emacs_ag
