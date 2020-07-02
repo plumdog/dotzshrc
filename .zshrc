@@ -114,6 +114,35 @@ function emacs_ag {
     emacs $(ag -l $@)
 }
 
+function share_screen {
+    monitor_num="${1:-1}"
+
+    line="$(xrandr -q | grep ' connected' | sed "${monitor_num}q;d")"
+
+    if [[ -z $line ]]; then
+        >&2 echo "No such screen"
+        return 1;
+    fi
+
+    size_and_offset="$(echo "$line" | sed -r 's/^.* ([0-9]+x[0-9]+\+[0-9]+\+[0-9]+) .*$/\1/')"
+
+
+    size="$(echo "$size_and_offset" | sed 's/+.*//')"
+    offset="$(echo "$size_and_offset" | sed 's/[^+]*+//')"
+
+    x_size="$(echo "$size" | cut -f 1 -dx)"
+    y_size="$(echo "$size" | cut -f 2 -dx)"
+
+    x_offset="$(echo "$offset" | cut -f 1 -d+)"
+    y_offset="$(echo "$offset" | cut -f 2 -d+)"
+
+    echo $x_size $y_size $x_offset $y_offset
+
+    toolbar_height=32
+
+    cvlc --no-video-deco --no-embedded-video --screen-fps=20 --screen-top=$(($y_offset + $toolbar_height)) --screen-left=$x_offset --screen-width=$x_size --screen-height=$(($y_size - $toolbar_height)) --video-title=sharescreen screen://
+}
+
 NOTEPATH_BASE=~/Dropbox/notes
 
 function _get_notes {
