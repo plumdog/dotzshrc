@@ -274,7 +274,7 @@ function noteslides {
                  -o "$notename".html \
                  "$notename".txt \
                  --slide-level 2 \
-                 -V revealjs-url=https://revealjs.com \
+                 -V revealjs-url=https://unpkg.com/reveal.js@3.9.2/ \
                  -V width=1920 \
                  -V height=1080 \
                  -V theme="$SLIDES_THEME" &&
