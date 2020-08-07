@@ -311,6 +311,12 @@ alias vv='create_virtualenv'
 alias vvd='deactivate'
 alias emags=emacs_ag
 
+function csv_less {
+    column -s, -t < $@ | less -#2 -N -S
+}
+
+alias csvl=csv_less
+
 setopt prompt_subst
 . ~/.git-prompt.sh
 
