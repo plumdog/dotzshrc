@@ -5,9 +5,10 @@ HISTFILE=~/.zsh_history
 
 # emacs all the things, all the time
 export ALTERNATE_EDITOR=""
-EDITOR_CMD="emacsclient -nw -c -t"
+EDITOR_CMD="emacsclient -nw"
 export EDITOR="$EDITOR_CMD"
 export VISUAL="$EDITOR_CMD"
+export BROWSER=firefox
 
 # Use modern completion system
 autoload -Uz compinit
@@ -102,7 +103,7 @@ function create_virtualenv {
 	if [[ "$dir" == "/" ]]
 	then
 		echo "Create virtualenv"
-		virtualenv venv --python="$_python"
+                $_python -m venv venv
 		source ./venv/bin/activate
 	else
 		echo "Activate existing virtualenv"
