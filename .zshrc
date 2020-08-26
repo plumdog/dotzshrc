@@ -223,7 +223,7 @@ function note {
     fi
 }
 
-compdef note_autocomplete note notecat noteslides notepdf notetextile
+
 
 function note_autocomplete {
     local -a notes_array
@@ -377,5 +377,6 @@ if [[ -f /home/$USER/.zshrc_extra ]]; then
       source /home/$USER/.zshrc_extra
 fi
 
+compdef note_autocomplete note notecat noteslides notepdf notetextile
 
 autocompletes
