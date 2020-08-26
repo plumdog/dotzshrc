@@ -111,6 +111,28 @@ function create_virtualenv {
 	fi
 }
 
+function autocompletes {
+    # echo "Loading completions"
+    if which kubectl &> /dev/null; then
+        source <(kubectl completion zsh)
+        # echo "Loaded kubectl completion"
+    fi
+
+    if which kops &> /dev/null; then
+        source <(kops completion zsh)
+        # echo "Loaded kops completion"
+    fi
+
+    if which helm &> /dev/null; then
+        source <(helm completion zsh)
+        # echo "Loaded helm completion"
+    fi
+    if which aws_zsh_completer.sh &> /dev/null; then
+        source "$(which aws_zsh_completer.sh)"
+    fi
+}
+
+
 function emacs_ag {
     emacs $(ag -l $@)
 }
@@ -306,6 +328,8 @@ function act {
         env_vars="$(./bin/activate $@)"
         eval "$(ssh-agent -s)" && source <(echo "$env_vars")
     fi
+
+    autocompletes
 }
 
 alias vv='create_virtualenv'
@@ -344,22 +368,6 @@ export PATH="$PATH"
 
 export PS1="$PS1"
 
-# echo "Loading completions"
-if which kubectl &> /dev/null; then
-    source <(kubectl completion zsh)
-    # echo "Loaded kubectl completion"
-fi
-
-if which kops &> /dev/null; then
-    source <(kops completion zsh)
-    # echo "Loaded kops completion"
-fi
-
-if which helm &> /dev/null; then
-    source <(helm completion zsh)
-    # echo "Loaded helm completion"
-fi
-
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 # This messes up zsh's custom autocompletion
@@ -369,6 +377,5 @@ if [[ -f /home/$USER/.zshrc_extra ]]; then
       source /home/$USER/.zshrc_extra
 fi
 
-if which aws_zsh_completer.sh &> /dev/null; then
-    source "$(which aws_zsh_completer.sh)"
-fi
+
+autocompletes
