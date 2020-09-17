@@ -127,8 +127,8 @@ function autocompletes {
         source <(helm completion zsh)
         # echo "Loaded helm completion"
     fi
-    if which aws_zsh_completer.sh &> /dev/null; then
-        source "$(which aws_zsh_completer.sh)"
+    if which aws_completer &> /dev/null; then
+        complete -C $(which aws_completer) aws
     fi
 }
 
@@ -379,3 +379,5 @@ fi
 compdef note_autocomplete note notecat noteslides notepdf notetextile
 
 autocompletes
+
+autoload bashcompinit && bashcompinit
