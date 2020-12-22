@@ -17,6 +17,15 @@ compinit
 # load colors
 autoload -U colors && colors
 
+function git_stats_wrapper() {
+    (
+        echo -n "$(date -Isecond)"
+        echo -n "\t"
+        echo $@
+    ) >> ~/git_usage/"$(date -I)".log
+    git $@
+}
+
 # functions and aliases
 alias less='less -XF'
 alias ls='ls --color'
@@ -30,7 +39,7 @@ alias em="$EDITOR_CMD"
 alias emac="$EDITOR_CMD"  # because I typo it way too often, OK?!
 alias v="vcsh"
 alias 'ssh-tunnel'="ssh -C2TnN -D 8080"
-alias g="git"
+alias g="git_stats_wrapper"
 alias s=svn
 alias gs="git status"
 alias naut="nautilus --no-desktop"
