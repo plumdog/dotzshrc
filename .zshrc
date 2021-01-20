@@ -146,6 +146,12 @@ function emacs_ag {
     emacs $(ag -l $@)
 }
 
+function day_start_uptime {
+    date -ud "@$(($(date +%s) - $(date +%s --date="$(last --time-format iso --since $(date -I) | head -n -2 | sed 's/ - .*//' | sed 's/.*\('"$(date +%Y)"'[0-9T:+\-]*\).*/\1/' | sort | head -n 1)")))" +'%-H:%M:%S'
+}
+
+alias uptimeday=day_start_uptime
+
 function share_screen {
     monitor_num="${1:-1}"
 
