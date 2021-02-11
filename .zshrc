@@ -145,6 +145,10 @@ function autocompletes {
     if which aws_completer &> /dev/null; then
         complete -C $(which aws_completer) aws
     fi
+
+    if [[ -f /etc/bash_completion.d/azure-cli ]]; then
+        source /etc/bash_completion.d/azure-cli
+    fi
 }
 
 
