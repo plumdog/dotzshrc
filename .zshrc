@@ -366,6 +366,10 @@ function csv_less {
     column -s, -t < $@ | less -#2 -N -S
 }
 
+yq() {
+    docker run --rm -i -v "${PWD}":/workdir mikefarah/yq:4 "$@"
+}
+
 alias csvl=csv_less
 
 setopt prompt_subst
