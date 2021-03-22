@@ -384,6 +384,7 @@ EXTRA_PATHS=(
     /usr/local/heroku/bin
     /snap/bin
     /home/$USER/bin
+    $HOME/.pulumi/bin
 )
 
 for p in "${EXTRA_PATHS[@]}"; do
