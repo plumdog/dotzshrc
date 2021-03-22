@@ -372,7 +372,7 @@ setopt prompt_subst
 . ~/.git-prompt.sh
 
 PROMPT_NAME="%{$fg[blue]%}%n%{$reset_color%}"
-PROMPT_HOST="%{$fg[green]%}%m%{$reset_color%}"
+PROMPT_HOST="%B%{$fg[green]%}%m%{$reset_color%}%b"
 PROMPT_BRANCH=$'$(__git_ps1 " [%s]")'
 PROMPT_PATH="%{$fg[cyan]%}%~%{$reset_color%}"
 PROMPT=$PROMPT_NAME"@"$PROMPT_HOST$PROMPT_BRANCH" "$PROMPT_PATH" %#
