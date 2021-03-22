@@ -395,7 +395,9 @@ export PATH="$PATH"
 
 export PS1="$PS1"
 
-source /usr/share/nvm/init-nvm.sh
+if [[ -f /usr/share/nvm/init-nvm.sh ]]; then
+    source /usr/share/nvm/init-nvm.sh
+fi
 
 # For some reason, whatever init-nvm.sh is doing upsets this
 # completion definition, so this needs to come after.
