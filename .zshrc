@@ -152,6 +152,10 @@ function autocompletes {
     if [[ -f /etc/bash_completion.d/azure-cli ]]; then
         source /etc/bash_completion.d/azure-cli
     fi
+
+    if [[ -f package.json ]]; then
+        source <(npm completion)
+    fi
 }
 
 
