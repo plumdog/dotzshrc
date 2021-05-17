@@ -104,7 +104,9 @@ function create_virtualenv {
         _python="python3"
     fi
 
-	dir=$(upsearch '.venv' 'dir')
+    
+
+    dir=$(upsearch '.venv' 'dir')
     if [[ "$dir" == "/" ]]; then
         dir=$(upsearch 'venv' 'dir')
     fi
@@ -112,12 +114,12 @@ function create_virtualenv {
 	if [[ "$dir" == "/" ]]
 	then
 		echo "Create virtualenv"
-                $_python -m venv venv
+                $_python -m venv venv || virtualenv -p $_python venv
 		source ./venv/bin/activate
                 pip install -U pip
                 if [[ -f Pipfile ]]; then
                     pip install pipenv
-                    pipenv install
+                    pipenv sync
                 elif [[ -f requirements.txt ]]; then
                     pip install -r requirements.txt;
                 fi
