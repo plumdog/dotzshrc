@@ -108,7 +108,7 @@ function create_virtualenv {
 		echo "Create virtualenv"
                 $_python -m venv venv || virtualenv -p $_python venv
 		source ./venv/bin/activate
-                pip install -U pip
+                pip install -U pip wheel
                 if [[ -f Pipfile ]]; then
                     pip install pipenv
                     pipenv sync
