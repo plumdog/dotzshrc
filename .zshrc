@@ -343,6 +343,11 @@ function act {
         return 1
     fi
 
+    if [[ -f .nvmrc ]]; then
+        nvm install --latest-npm || echo "Failed to install node/npm based on .nvmrc file"
+        export PATH="$PATH"
+    fi
+
     if head -n 1 ./bin/activate | grep 'python' >> /dev/null; then
         create_virtualenv && {
                 env_vars="$(./bin/activate $@)"
@@ -406,7 +411,10 @@ fi
 compdef git
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+if [[ -s "$NVM_DIR/nvm.sh" ]]; then
+    . "$NVM_DIR/nvm.sh" --no-use  # This loads nvm
+    nvm use --lts >> /dev/null
+fi
 
 if [[ -f /home/$USER/.zshrc_extra ]]; then
       source /home/$USER/.zshrc_extra
@@ -417,6 +425,7 @@ compdef note_autocomplete note notecat noteslides notepdf notetextile
 autocompletes
 
 autoload bashcompinit && bashcompinit
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 if ! pgrep -u "$USER" ssh-agent > /dev/null; then
     ssh-agent -t 24h > "$XDG_RUNTIME_DIR/ssh-agent.env"
