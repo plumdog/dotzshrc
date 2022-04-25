@@ -9,6 +9,7 @@ EDITOR_CMD="emacsclient -nw"
 export EDITOR="$EDITOR_CMD"
 export VISUAL="$EDITOR_CMD"
 export BROWSER=firefox
+export GPG_TTY=$(tty)
 
 # Use modern completion system
 autoload -Uz compinit
@@ -352,13 +353,13 @@ function act {
     fi
 
     if head -n 1 ./bin/activate | grep 'python' >> /dev/null; then
-        create_virtualenv && eval "$(ssh-agent -s)" && {
+        create_virtualenv && {
                 env_vars="$(./bin/activate $@)"
                 source <(echo "$env_vars")
             }
     else
         env_vars="$(./bin/activate $@)"
-        eval "$(ssh-agent -s)" && source <(echo "$env_vars")
+        source <(echo "$env_vars")
     fi
 
     autocompletes
@@ -425,3 +426,10 @@ compdef note_autocomplete note notecat noteslides notepdf notetextile
 autocompletes
 
 autoload bashcompinit && bashcompinit
+
+if ! pgrep -u "$USER" ssh-agent > /dev/null; then
+    ssh-agent -t 24h > "$XDG_RUNTIME_DIR/ssh-agent.env"
+fi
+if [[ ! "$SSH_AUTH_SOCK" ]]; then
+    source "$XDG_RUNTIME_DIR/ssh-agent.env" >/dev/null
+fi
