@@ -152,7 +152,7 @@ function autocompletes {
 
 
 function emacs_ag {
-    emacs $(ag -l $@)
+    emacs -c $(ag -l $@)
 }
 
 function day_start_uptime {
