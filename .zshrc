@@ -413,7 +413,13 @@ compdef git
 export NVM_DIR="$HOME/.nvm"
 if [[ -s "$NVM_DIR/nvm.sh" ]]; then
     . "$NVM_DIR/nvm.sh" --no-use  # This loads nvm
-    nvm use --lts >> /dev/null
+    nvm use --lts --silent || {
+        echo "Getting some baseline node versions..."
+        nvm install node --no-progress
+        nvm use node --silent
+        nvm install --lts --no-progress
+        nvm use --silent --lts
+    }
 fi
 
 if [[ -f /home/$USER/.zshrc_extra ]]; then
