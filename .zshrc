@@ -389,8 +389,8 @@ function csv_less {
     column -s, -t < $@ | less -#2 -N -S
 }
 
-yq() {
-    docker run --rm -i -v "${PWD}":/workdir mikefarah/yq:4 "$@"
+yq_docker() {
+    docker run --rm -i -v "${PWD}":/workdir mikefarah/yq:4.25.1 "$@"
 }
 
 alias csvl=csv_less
