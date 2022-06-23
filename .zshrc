@@ -136,6 +136,7 @@ function autocompletes {
     if which helm &> /dev/null; then
         source <(helm completion zsh)
         # echo "Loaded helm completion"
+        export HELM_DIFF_COLOR=true
     fi
     if which aws_completer &> /dev/null; then
         complete -C $(which aws_completer) aws
