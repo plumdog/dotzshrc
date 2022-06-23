@@ -343,9 +343,28 @@ function act {
         return 1
     fi
 
-    if [[ -f .nvmrc ]]; then
-        nvm install --latest-npm || echo "Failed to install node/npm based on .nvmrc file"
-        export PATH="$PATH"
+    if [[ -f .nvmrc || -f package.json ]]; then
+        if [[ -f .nvmrc ]]; then
+            nvm install || echo "Failed to install node/npm based on .nvmrc file"
+            export PATH="$PATH"
+        else
+            echo "No .nvmrc, trying to determine node version from package.json"
+            node_version_range="$(cat package.json | jq -r '.engines.node // ""')"
+            if [[ -n $node_version_range ]]; then
+                echo "Found node version range: $node_version_range"
+                resolved_node_version="$(curl --silent --get --data-urlencode "range=$node_version_range" https://semver.herokuapp.com/node/resolve)"
+                echo "Resolved version range to $resolved_node_version, installing"
+                nvm install "$resolved_node_version"
+            fi
+        fi
+        npm_version="$(cat package.json | jq -r '.engines.npm // ""')"
+        if [[ -n $npm_version ]]; then
+            npm i -g npm@"$npm_version"
+        else
+            echo "Installing latest that works with node"
+            nvm install-latest-npm
+        fi
+        echo "done"
     fi
 
     if head -n 1 ./bin/activate | grep 'python' >> /dev/null; then
