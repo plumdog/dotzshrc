@@ -353,7 +353,10 @@ function act {
             node_version_range="$(cat package.json | jq -r '.engines.node // ""')"
             if [[ -n $node_version_range ]]; then
                 echo "Found node version range: $node_version_range"
-                resolved_node_version="$(curl --silent --get --data-urlencode "range=$node_version_range" https://semver.herokuapp.com/node/resolve)"
+                all_node_versions="$(curl --silent 'https://nodejs.org/dist/index.json' | jq -r '.[] | .version' | sed 's/^v//' | grep 14 | xargs)"
+                setopt shwordsplit
+                resolved_node_version="$(npx semver -r "$node_version_range" $all_node_versions | tail -n 1)"
+                unsetopt shwordsplit
                 echo "Resolved version range to $resolved_node_version, installing"
                 nvm install "$resolved_node_version"
             fi
