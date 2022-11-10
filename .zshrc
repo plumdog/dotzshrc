@@ -8,7 +8,7 @@ export ALTERNATE_EDITOR=""
 EDITOR_CMD="emacsclient -nw"
 export EDITOR="$EDITOR_CMD"
 export VISUAL="$EDITOR_CMD"
-export BROWSER=firefox
+export BROWSER=google-chrome
 export GPG_TTY=$(tty)
 
 # Use modern completion system
