@@ -368,6 +368,11 @@ function act {
             echo "Installing latest that works with node"
             nvm install-latest-npm
         fi
+
+        if [[ ! -d "node_modules/" ]]; then
+            npm ci
+        fi
+
         echo "done"
     fi
 
