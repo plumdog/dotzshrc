@@ -478,6 +478,15 @@ export PATH="$PATH"
 
 export PS1="$PS1"
 
+simple_prompt() {
+    export _ORIGINAL_PS1="$PS1"
+    export PS1='$ '
+}
+
+un_simple_prompt() {
+    export PS1="$_ORIGINAL_PS1"
+}
+
 aws_notify() {
     aws "$@"
     notify-send "AWS CLI command completed" "aws $(echo "$@")"
