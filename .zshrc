@@ -525,9 +525,4 @@ autocompletes
 
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-if ! pgrep -u "$USER" ssh-agent > /dev/null; then
-    ssh-agent -t 24h > "$XDG_RUNTIME_DIR/ssh-agent.env"
-fi
-if [[ ! "$SSH_AUTH_SOCK" ]]; then
-    source "$XDG_RUNTIME_DIR/ssh-agent.env" >/dev/null
-fi
+source <(keychain --eval --quiet --timeout $((24 * 60)))
