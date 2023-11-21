@@ -343,6 +343,25 @@ function to_qwerty {
 }
 
 function act {
+    lockdir="$(pwd)/.activate.lock"
+    trap 'rm -rf "$lockdir"; return $?' INT TERM EXIT
+    wait_count=0
+    while true; do
+        if mkdir "$lockdir" &>/dev/null; then
+            if [[ $wait_count -gt 0 ]]; then
+                echo
+            fi
+            break
+        else
+            if [[ $wait_count -eq 0 ]]; then
+                >&2 echo -n "Another instance of activate is already running here, waiting..."
+            elif [[ $(( $wait_count % 2 )) -eq 0 ]]; then
+                >&2 echo -n "."
+            fi
+            wait_count=$(($wait_count + 1))
+            sleep 1
+        fi
+    done
     if [[ ! -f ./bin/activate ]]; then
         echo "No ./bin/activate, not running"
         return 1
