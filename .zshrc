@@ -149,6 +149,10 @@ function autocompletes {
     if [[ -f package.json ]]; then
         source <(npm completion)
     fi
+
+    if which flux &> /dev/null; then
+        source <(flux completion zsh)
+    fi
 }
 
 
