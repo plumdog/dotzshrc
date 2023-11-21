@@ -420,6 +420,31 @@ function csv_less {
     column -s, -t < $@ | less -#2 -N -S
 }
 
+function cdk_analytics_decode {
+    echo "$1" | sed 's/^v2\:deflate64\://' | base64 -d | zcat -
+}
+
+function cdk_analytics_decode_stack {
+    cdk_analytics_decode "$(aws cloudformation get-template --stack-name qa-infrastructure --query 'TemplateBody.Resources.CDKMetadata.Properties.Analytics' --output text)"
+}
+
+aws_sso_creds_export() {
+    creds_json="$(python -c 'import configparser, os, json; config = configparser.ConfigParser(); config.read(os.path.join(os.path.expanduser("~"), ".aws/credentials")); print(json.dumps(dict(config["default"])));')"
+    aws_access_key_id="$(echo "$creds_json" | jq -r .aws_access_key_id)"
+    aws_secret_access_key="$(echo "$creds_json" | jq -r .aws_secret_access_key)"
+    aws_session_token="$(echo "$creds_json" | jq -r .aws_session_token)"
+    aws_security_token="$(echo "$creds_json" | jq -r .aws_security_token)"
+
+    echo "export AWS_ACCESS_KEY_ID='${aws_access_key_id}';"
+    echo "export AWS_SECRET_ACCESS_KEY='${aws_secret_access_key}';"
+    echo "export AWS_SESSION_TOKEN='${aws_session_token}';"
+    echo "export AWS_SECURITY_TOKEN='${aws_security_token}';"
+}
+
+aws_sso_creds_export_source() {
+    source <(aws_sso_creds_export)
+}
+
 yq_docker() {
     docker run --rm -i -v "${PWD}":/workdir mikefarah/yq:4.25.1 "$@"
 }
@@ -452,6 +477,13 @@ done
 export PATH="$PATH"
 
 export PS1="$PS1"
+
+aws_notify() {
+    aws "$@"
+    notify-send "AWS CLI command completed" "aws $(echo "$@")"
+}
+
+alias aws-notify="aws_notify"
 
 if [[ -f /usr/share/nvm/init-nvm.sh ]]; then
     source /usr/share/nvm/init-nvm.sh
