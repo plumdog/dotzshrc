@@ -14,6 +14,7 @@ export GPG_TTY=$(tty)
 # Use modern completion system
 autoload -Uz compinit
 compinit
+autoload -U +X bashcompinit && bashcompinit
 
 # load colors
 autoload -U colors && colors
@@ -522,7 +523,6 @@ compdef note_autocomplete note notecat noteslides notepdf notetextile
 
 autocompletes
 
-autoload bashcompinit && bashcompinit
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 if ! pgrep -u "$USER" ssh-agent > /dev/null; then
